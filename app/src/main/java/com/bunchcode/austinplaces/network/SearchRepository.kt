@@ -1,5 +1,6 @@
 package com.bunchcode.austinplaces.network
 
+import com.bunchcode.austinplaces.data.Venue
 import io.reactivex.Single
 
 class SearchRepository(private val apiService: FoursquareApiService) {
@@ -12,6 +13,12 @@ class SearchRepository(private val apiService: FoursquareApiService) {
                 .flatMapIterable { it.venues }
                 .map { it.name }
                 .toList()
+    }
+
+    fun searchVenues(query: String): Single<List<Venue>> {
+
+        return apiService.searchVenues(query)
+                .map { it.response.venues }
     }
 }
 

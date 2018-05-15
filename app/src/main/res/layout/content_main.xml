@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:layout="@layout/fragment_main">
+    tools:layout="@layout/fragment_search_list">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/searchFieldLayout"
@@ -24,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_search"
+            android:imeOptions="actionSearch"
             android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
@@ -44,6 +45,7 @@
         android:layout_height="48dp"
         android:layout_marginEnd="16dp"
         android:background="@null"
+        android:tint="@color/action_search"
         app:layout_constraintBottom_toBottomOf="@+id/searchFieldLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_search" />

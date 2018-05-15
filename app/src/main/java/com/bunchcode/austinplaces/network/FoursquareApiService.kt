@@ -15,6 +15,9 @@ interface FoursquareApiService {
     @GET("venues/suggestcompletion?near=$AUSTIN_TX")
     fun getSuggestions(@Query("query") queryStart: String): Single<SuggestionsResult>
 
+    @GET("venues/search?near=$AUSTIN_TX")
+    fun searchVenues(@Query("query") query: String): Single<SearchResult>
+
     companion object {
 
         const val BASE_URL = "https://api.foursquare.com/v2/"
@@ -50,3 +53,6 @@ interface FoursquareApiService {
 
 data class SuggestionsResult(@SerializedName("response") val response: SuggestionsResponse)
 data class SuggestionsResponse(@SerializedName("minivenues") val venues: List<Venue>)
+
+data class SearchResult(@SerializedName("response") val response: SearchResponse)
+data class SearchResponse(@SerializedName("venues") val venues: List<Venue>)
