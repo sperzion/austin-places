@@ -9,7 +9,5 @@ data class Category(@SerializedName("name") val name: String,
 data class CategoryIcon(@SerializedName("prefix") private val prefix: String,
                         @SerializedName("suffix") private val suffix: String) {
 
-    fun getUrl(): String {
-        return prefix + "bg_64" + suffix
-    }
+    val url: String get() = prefix + "bg_64" + suffix
 }

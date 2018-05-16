@@ -1,5 +1,9 @@
 package com.bunchcode.austinplaces.app
 
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.graphics.Color
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import java.lang.Math.*
 
 sealed class AppUtils {
@@ -20,6 +24,18 @@ sealed class AppUtils {
             val c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
             return c * 3959
+        }
+
+        fun hue(color: Int): Float {
+
+            val hsv = FloatArray(3, { 0f })
+            Color.colorToHSV(color, hsv)
+            return hsv[0]
+        }
+
+        fun hideKeyboard(view: View) {
+            val inputManager = view.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 }

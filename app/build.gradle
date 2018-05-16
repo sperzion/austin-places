@@ -36,6 +36,7 @@ dependencies {
     implementation 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.1.1'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:2.2.1'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
 
     annotationProcessor 'android.arch.lifecycle:compiler:1.1.1'
 

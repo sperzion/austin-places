@@ -48,9 +48,8 @@ class SearchResultsAdapter(val results: List<Venue>) : RecyclerView.Adapter<View
             }
 
             category.text = venue.categories[0].name
-            val categoryIcon = venue.categories[0].icon
             Glide.with(icon)
-                    .load(categoryIcon.getUrl())
+                    .load(venue.categories[0].icon.url)
                     .into(icon)
         }
     }

@@ -18,18 +18,18 @@ import kotlinx.android.synthetic.main.fragment_search_list.*
  * A placeholder fragment containing a simple view.
  */
 class SearchListFragment : Fragment() {
-    private var searchViewModel: SearchViewModel? = null
+
+    lateinit var searchViewModel: SearchViewModel
 
     companion object {
 
         fun newInstance(): SearchListFragment = SearchListFragment()
-
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         searchViewModel = ViewModelProviders.of(activity!!).get(SearchViewModel::class.java)
-        searchViewModel!!.searchResults.observe(this, Observer {
+        searchViewModel.searchResults.observe(this, Observer {
             searchResults.adapter = SearchResultsAdapter(it!!)
         })
     }

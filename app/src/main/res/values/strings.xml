@@ -4,4 +4,5 @@
     <string name="hint_search">Search places, e.g. coffee</string>
     <string name="label_search">Search places</string>
     <string name="label_miles_from_austin">%1$.2f mi</string>
+    <string name="label_austin">Austin</string>
 </resources>
