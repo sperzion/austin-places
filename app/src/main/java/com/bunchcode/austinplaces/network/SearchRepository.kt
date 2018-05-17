@@ -3,28 +3,28 @@ package com.bunchcode.austinplaces.network
 import com.bunchcode.austinplaces.data.Venue
 import io.reactivex.Single
 
-class SearchRepository(private val apiService: FoursquareApiService) {
+class SearchRepository {
 
-    fun getSuggestions(queryStart: String): Single<List<String>> {
+    companion object {
 
-        return apiService.getSuggestions(queryStart)
-                .map { it.response }
-                .toFlowable()
-                .flatMapIterable { it.venues }
-                .map { it.name }
-                .toList()
-    }
+        private val apiService: FoursquareApiService by lazy {
+            FoursquareApiService.get()
+        }
 
-    fun searchVenues(query: String): Single<List<Venue>> {
+        fun getSuggestions(queryStart: String): Single<List<String>> {
 
-        return apiService.searchVenues(query)
-                .map { it.response.venues }
-    }
-}
+            return apiService.getSuggestions(queryStart)
+                    .map { it.response }
+                    .toFlowable()
+                    .flatMapIterable { it.venues }
+                    .map { it.name }
+                    .toList()
+        }
 
-object SearchRepositoryProvider {
+        fun searchVenues(query: String): Single<List<Venue>> {
 
-    fun get(): SearchRepository {
-        return SearchRepository(FoursquareApiService.create())
+            return apiService.searchVenues(query)
+                    .map { it.response.venues }
+        }
     }
 }

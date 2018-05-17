@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                     searchViewModel.onQueryChanged(it.toString())
                 }
 
-        searchField.setOnEditorActionListener({ field, actionId, keyEvent ->
+        searchField.setOnEditorActionListener({ _, actionId, _ ->
             var handled = false
             if (EditorInfo.IME_ACTION_SEARCH == actionId) {
                 if (searchViewModel.canSearch.value!!) {

@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface FoursquareApiService {
@@ -18,6 +19,9 @@ interface FoursquareApiService {
     @GET("venues/search?near=$AUSTIN_TX")
     fun searchVenues(@Query("query") query: String): Single<SearchResult>
 
+    @GET("venues/{venueId}")
+    fun retrieveVenueDetails(@Path("venueId") venueId: String): Single<VenueDetailsResult>
+
     companion object {
 
         const val BASE_URL = "https://api.foursquare.com/v2/"
@@ -26,7 +30,15 @@ interface FoursquareApiService {
         const val CLIENT_SECRET = "YMCXCWFEEZMT2TXLQGYKVQ0PAHNOPY0S5H252NF20AWIEHJJ"
         const val AUSTIN_TX = "Austin, TX"
 
-        fun create(): FoursquareApiService {
+        lateinit var instance: FoursquareApiService
+
+        fun get(): FoursquareApiService {
+            if (!this::instance.isInitialized)
+                instance = create()
+            return instance
+        }
+
+        private fun create(): FoursquareApiService {
             
             val httpClient = OkHttpClient.Builder()
                     .addInterceptor {
@@ -56,3 +68,6 @@ data class SuggestionsResponse(@SerializedName("minivenues") val venues: List<Ve
 
 data class SearchResult(@SerializedName("response") val response: SearchResponse)
 data class SearchResponse(@SerializedName("venues") val venues: List<Venue>)
+
+data class VenueDetailsResult(@SerializedName("response") val response: VenueDetailsResponse)
+data class VenueDetailsResponse(@SerializedName("venue") val venue: Venue)

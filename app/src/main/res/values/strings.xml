@@ -5,4 +5,10 @@
     <string name="label_search">Search places</string>
     <string name="label_miles_from_austin">%1$.2f mi</string>
     <string name="label_austin">Austin</string>
+    <string name="label_phone">Phone</string>
+    <string name="label_address">Address</string>
+    <string name="label_website">Website</string>
+    <string name="label_price">Price</string>
+    <string name="label_hours">Hours</string>
+    <string name="label_menu">Menu</string>
 </resources>

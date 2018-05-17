@@ -30,7 +30,9 @@ class SearchListFragment : Fragment() {
 
         searchViewModel = ViewModelProviders.of(activity!!).get(SearchViewModel::class.java)
         searchViewModel.searchResults.observe(this, Observer {
-            searchResults.adapter = SearchResultsAdapter(it!!)
+            searchResults.adapter = SearchResultsAdapter(it!!, {
+                VenueDetailsActivity.start(it, activity!!)
+            })
         })
     }
 

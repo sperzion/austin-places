@@ -5,7 +5,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.bunchcode.austinplaces.data.Venue
-import com.bunchcode.austinplaces.network.SearchRepositoryProvider
+import com.bunchcode.austinplaces.network.SearchRepository
 import io.reactivex.schedulers.Schedulers
 
 class SearchViewModel : ViewModel() {
@@ -37,14 +37,14 @@ class SearchViewModel : ViewModel() {
             return
         }
 
-        SearchRepositoryProvider.get().getSuggestions(newQuery)
+        SearchRepository.getSuggestions(newQuery)
                 .subscribeOn(Schedulers.io())
                 .subscribe((suggestions as MutableLiveData)::postValue)
     }
 
     @SuppressLint("CheckResult")
     fun onSearchSubmitted() {
-        SearchRepositoryProvider.get().searchVenues(query.value!!)
+        SearchRepository.searchVenues(query.value!!)
                 .subscribeOn(Schedulers.io())
                 .subscribe((searchResults as MutableLiveData)::postValue)
     }
