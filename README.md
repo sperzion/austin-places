@@ -13,9 +13,7 @@ This application was developed using:
 #### Google Maps
 Google Maps requires an API key which is tied to the certificate used to sign the Android application.  For debug builds, the certificate is the default debug certificate that can typically be found in the user's home directory.
 
-In order to run the application and see the maps functionality working, you will need to [obtain your own API key](https://developers.google.com/maps/documentation/android-sdk/signup) tied to your own debug certificate (and update the value in `AndroidManifest.xml` under the meta-data name `com.google.android.geo.API_KEY`) or replace your debug certificate with the one included in this project (`debug.keystore`).
-
-To replace your debug certificate, copy the `debug.keystore` file in this project and paste it into your `$HOME/.android/` directory.
+In order to run the application and see the maps functionality working, you will need to [obtain your own API key](https://developers.google.com/maps/documentation/android-sdk/signup) tied to your own debug certificate (and update the value in `AndroidManifest.xml` under the meta-data name `com.google.android.geo.API_KEY`).
 
 #### Other issues
 If gradle sync fails with the message:
