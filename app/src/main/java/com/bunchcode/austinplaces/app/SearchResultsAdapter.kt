@@ -46,6 +46,9 @@ class SearchResultsAdapter(
             name.text = venue.name
             distance.text = distance.context.getString(R.string.label_miles_from_austin,
                     AppUtils.milesFromAustin(venue.location.latitude, venue.location.longitude))
+            isFavorite.setImageResource(
+                    if (venue.isFavorite) R.drawable.ic_favorited
+                    else R.drawable.ic_unfavorited)
 
             if (venue.categories.isEmpty()) {
                 category.text = ""

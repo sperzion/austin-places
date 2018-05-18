@@ -50,7 +50,7 @@ class VenueDetailsFragment: Fragment() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.retrieveVenueDetails(venue.id)
+        viewModel.retrieveVenueDetails(venue.id, activity!!)
     }
 
     private fun updateVenue(venue: Venue) {

@@ -1,19 +1,56 @@
 package com.bunchcode.austinplaces.data
 
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.Ignore
+import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
-data class Venue(@SerializedName("id") val id: String,
-                 @SerializedName("name") val name: String,
-                 @SerializedName("location") val location: Location,
-                 @SerializedName("categories") val categories: List<Category>,
-                 @SerializedName("url") val url: String?,
-                 @SerializedName("contact") private val contact: ContactInfo?,
-                 @SerializedName("price") private val price: PriceInfo?,
-                 @SerializedName("hours") private val hours: HoursInfo?,
-                 @SerializedName("menu") private val menu: MenuInfo?
+@Entity
+data class Venue(
+        @PrimaryKey
+        @SerializedName("id")
+        val id: String,
+
+        @ColumnInfo(name = "name")
+        @SerializedName("name")
+        val name: String,
+
+        @ColumnInfo(name = "isFavorite")
+        var isFavorite: Boolean = false
+
 ) : Parcelable {
+
+    @Ignore
+    @SerializedName("location")
+    lateinit var location: Location
+
+    @Ignore
+    @SerializedName("categories")
+    lateinit var categories: List<Category>
+
+    @Ignore
+    @SerializedName("url")
+    var url: String? = null
+
+    @Ignore
+    @SerializedName("contact")
+    private var contact: ContactInfo? = null
+
+    @Ignore
+    @SerializedName("price")
+    private var price: PriceInfo? = null
+
+    @Ignore
+    @SerializedName("hours")
+    private var hours: HoursInfo? = null
+
+    @Ignore
+    @SerializedName("menu")
+    private var menu: MenuInfo? = null
+
 
     val formattedPhone: String? get() = contact?.phone
     val priceTier: String? get() = price?.tier
@@ -23,17 +60,20 @@ data class Venue(@SerializedName("id") val id: String,
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),
-            parcel.readParcelable(Location::class.java.classLoader),
-            parcel.createTypedArrayList(Category),
-            parcel.readString(),
-            parcel.readParcelable(ContactInfo::class.java.classLoader),
-            parcel.readParcelable(PriceInfo::class.java.classLoader),
-            parcel.readParcelable(HoursInfo::class.java.classLoader),
-            parcel.readParcelable(MenuInfo::class.java.classLoader))
+            parcel.readByte() != 0.toByte()) {
+        location = parcel.readParcelable(Location::class.java.classLoader)
+        categories = parcel.createTypedArrayList(Category)
+        url = parcel.readString()
+        contact = parcel.readParcelable(ContactInfo::class.java.classLoader)
+        price = parcel.readParcelable(PriceInfo::class.java.classLoader)
+        hours = parcel.readParcelable(HoursInfo::class.java.classLoader)
+        menu = parcel.readParcelable(MenuInfo::class.java.classLoader)
+    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(name)
+        parcel.writeByte(if (isFavorite) 1 else 0)
         parcel.writeParcelable(location, flags)
         parcel.writeTypedList(categories)
         parcel.writeString(url)

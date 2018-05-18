@@ -5,10 +5,6 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import com.bunchcode.austinplaces.R
@@ -44,22 +40,6 @@ class MainActivity : AppCompatActivity() {
         attachViewModelObservers()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     @SuppressLint("CheckResult")
     private fun attachViewListeners() {
 
@@ -68,7 +48,6 @@ class MainActivity : AppCompatActivity() {
                 .bindToLifecycle(this)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    Log.d("MainActivity", it.toString())
                     searchViewModel.onQueryChanged(it.toString())
                 }
 
@@ -84,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         searchAction.clicks().subscribe {
-            searchViewModel.onSearchSubmitted()
+            searchViewModel.onSearchSubmitted(this)
             hideKeyboard(searchAction)
             searchField.dismissDropDown()
         }
@@ -101,6 +80,12 @@ class MainActivity : AppCompatActivity() {
                     android.R.layout.simple_dropdown_item_1line,
                     android.R.id.text1,
                     suggestions))
+
+            searchField.showDropDown()
+        })
+
+        searchViewModel.searchResults.observe(this, Observer {
+            searchField.dismissDropDown()
         })
 
         searchViewModel.resultsAsMap.observe(this, Observer { resultsAsMap ->

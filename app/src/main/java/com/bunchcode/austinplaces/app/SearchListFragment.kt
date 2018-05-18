@@ -29,10 +29,30 @@ class SearchListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         searchViewModel = ViewModelProviders.of(activity!!).get(SearchViewModel::class.java)
+
         searchViewModel.searchResults.observe(this, Observer {
             searchResults.adapter = SearchResultsAdapter(it!!, {
                 VenueDetailsActivity.start(it, activity!!)
             })
+        })
+
+        searchViewModel.getFavoritedIds(activity!!).observe(this, Observer {
+            if (null == searchResults.adapter) return@Observer
+
+            val results = (searchResults.adapter as SearchResultsAdapter).results
+            for (index in results.indices) {
+                if (it!!.contains(results[index].id)) {
+                    if (!results[index].isFavorite) {
+                        results[index].isFavorite = true
+                        searchResults.adapter.notifyItemChanged(index)
+                    }
+                } else {
+                    if (results[index].isFavorite) {
+                        results[index].isFavorite = false
+                        searchResults.adapter.notifyItemChanged(index)
+                    }
+                }
+            }
         })
     }
 
